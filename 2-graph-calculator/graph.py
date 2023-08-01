@@ -1,4 +1,5 @@
 from turtle import *
+speed("fast")
 
 # draw the x and y axes
 pu()
@@ -14,6 +15,7 @@ goto(0,-250)
 for x in range(-240, 240, 20):
     pu()
     goto(x, 5)
+    write(x//20)
     pd()
     goto(x, -5)
 
@@ -22,6 +24,7 @@ for y in range(-240, 240, 20):
     goto(-5, y)
     pd()
     goto(5, y)
+    write(y//20)
 
 # enter some values
 startx = int(input("Enter your start x value: "))
