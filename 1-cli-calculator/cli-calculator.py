@@ -5,6 +5,8 @@
 # whitespace is ignored
 # handles errors gracefully
 
+import re
+
 def add(a, b):
     return a + b
 
@@ -25,14 +27,20 @@ def get_input():
     if parts == 'q':
         return 'q'
     else:
-        parts = parts.replace(' ', '')
-        operator = parts.strip('0123456789.')
-        operands = parts.split('+-*/^')
-        if len(parts) != 2:
+        # split the input into two parts, the operands and the operator
+        parts = re.split('(\+|\-|\*|\/|\^)', parts)
+        # remove whitespace
+        parts = [part.strip() for part in parts]
+        # remove empty strings
+        parts = [part for part in parts if part != '']
+        # if there are more than two parts, the input is invalid
+        if len(parts) == 3 and parts[0].isnumeric() and parts[2].isnumeric():
+            # if the operands are both numeric, convert them to floats
+            return [float(parts[0]), parts[1], float(parts[2])]
+        else:
+            # otherwise, the input is invalid
             print("Invalid input. Please try again.")
             return get_input()
-        else:
-            return [float(operands[0]), operator, float(operands[1])]
 
 def run():
     while True:
@@ -51,6 +59,6 @@ def run():
             elif input[1] == '^':
                 print(exponentiate(input[0], input[2]))
             else:
-                print("Invalid input. Please try again.")
+                print("Invalid operator. Please try again.")
 
 run()
